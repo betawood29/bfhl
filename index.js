@@ -4,9 +4,9 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-const USER_ID = "Venkata Krishnan S";
-const EMAIL = "vs9205@srmist.edu.in";
-const ROLL_NUMBER = "RA2011003010165";
+const USER_ID = "kirandeep kaur";
+const EMAIL = "kirandeep1744.be21@chitkara.edu.in";
+const ROLL_NUMBER = "R2110991744";
 
 app.get('/bfhl', (req, res) => {
     res.status(200).json({ operation_code: 1 });
@@ -20,22 +20,33 @@ app.post('/bfhl', (req, res) => {
             throw new Error('Data must be an array');
         }
 
-        const numbers = data.filter(item => typeof item === 'string' && !isNaN(item));
-        const alphabets = data.filter(item => typeof item === 'string' && isNaN(item) && item.length === 1);
-
-        let highest_alphabet = null;
-        if (alphabets.length > 0) {
-            highest_alphabet = alphabets.sort((a, b) => b.localeCompare(a, 'en', { sensitivity: 'base' }))[0];
+        const oddnumbers = ()=>{
+            data.filter(item => typeof item === 'string' && !isNaN(item));
+            if(item%2!=0){
+                return item;
+            }
         }
+        const evennumbers = ()=>{
+            data.filter(item => typeof item === 'string' && !isNaN(item));
+            if(item%2==0){
+                return item;
+            }
+        };
+        const alphabets = ()=>{
+            data.filter(item => typeof item === 'string' && isNaN(item) && item.length === 1);
+            return item.toUpperCase();
+        }
+        
 
         res.status(200).json({
             is_success: true,
             user_id: USER_ID,
             email: EMAIL,
             roll_number: ROLL_NUMBER,
-            numbers: numbers,
-            alphabets: alphabets,
-            highest_alphabet: highest_alphabet ? [highest_alphabet] : []
+            odd_numbers: numbers,
+            even_numbers: numbers,
+            alphabets: alphabets
+            
         });
     } catch (error) {
         res.status(400).json({ is_success: false, error: error.message });
